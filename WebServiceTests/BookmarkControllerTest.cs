@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 using Moq;
 using ProjectPortfolio2_Group11.Controller;
 using DataServiceLib.IDataService;
+using DataServiceLib.DBObjects;
+
 using Xunit;
 
 
@@ -29,25 +31,25 @@ namespace WebServiceTests
         }
 
         [Fact]
-        public void GetProductWithValidIdShouldReturnOk()
+        public void GetBookMarkWithValidIdShouldReturnOk()
         {
 
 
-            _BookmarkingDataServiceMock.Setup(x => x.GetBookMark(1)).Returns(new BookMark { nconst = new nconst() });
-            _mapperMock.Setup(x => x.Map<BookmarkPerson>(It.IsAny<BookMark>())).Returns(new BookMarkPerson());
+            _BookmarkingDataServiceMock.Setup(x => x.GetBookMark( userid, nconst)).Returns(new BookmarkPerson () );
+            _mapperMock.Setup(x => x.Map<BookmarkPerson>(It.IsAny<BookmarkPerson>())).Returns(new BookmarkPerson());
 
 
             var ctrl = new BookmarkController(_BookmarkingDataServiceMock.Object, _mapperMock.Object);
             ctrl.Url = _urlMock.Object;
 
-            var response = ctrl.GetBookMark(1);
+            var response = ctrl.GetBookMark();
 
             response.Should().BeOfType<OkObjectResult>();
 
         }
 
         [Fact]
-        public void GetProductWithInvalidIdShouldReturnNotFound()
+        public void GetBookMarktWithInvalidIdShouldReturnNotFound()
         {
 
             var ctrl = new BookmarkController(_BookmarkingDataServiceMock.Object, null);
